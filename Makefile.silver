@@ -1,0 +1,37 @@
+#MESA = /cap/vis4/CaVis/Mesa-2.1
+#GLUT = /cap/vis4/CaVis/glut-3.2
+#X11 = /usr/openwin
+CC = gcc
+
+PROF = 
+OPT = -g -Wall -fshort-enums 
+#OPT = -fshort-enums -g -Wall 
+LOPT = -g 
+
+#INCLUDE = -I$(MESA)/include -I$(GLUT)
+#GLUT_LIBS = -L$(GLUT)/lib/glut -lglut
+#MESA_LIBS = -L$(MESA)/lib -lMesaGLU -lMesaGL -lm
+#XLIBS = -L$(X11)/lib -lXmu -lXt -lXext -lX11 -lXi
+
+
+CFLAGS = $(PROF) $(OPT) $(INCLUDE)
+
+
+LIBS = $(PROF) $(GLUT_LIBS) $(MESA_LIBS) $(XLIBS) 
+
+TARGET = KnightCap
+
+OBJS = knightcap.o trackball.o move.o util.o generate.o eval.o movement.o \
+	ordering.o hash.o board.o log.o prog.o timer.o ics.o display.o \
+	testsuite.o
+
+$(TARGET):  $(OBJS) 
+	-/usr/bin/mv $@ $@.old
+	$(CC) -o $@ $(OBJS) $(LOPT) $(LIBS)
+
+proto:
+	cat *.c | nawk -f mkproto.awk > proto.h
+
+clean:
+	/bin/rm -f *.o *~ $(TARGET)
+

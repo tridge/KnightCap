@@ -1,0 +1,38 @@
+#MESA = /cap/vis4/CaVis/Mesa-2.1-sunos4
+#GLUT = $(MESA)/glut-3.2
+#X11 = /usr/local/X11R5
+
+CC = cc.aplinux
+AWK = gawk
+
+PROF = 
+#OPT = -O3 -fshort-enums  -Wall 
+OPT = -DSUNOS4=1 -DAPLINUX=1 -O3 -fshort-enums -Wall 
+LOPT = 
+
+INCLUDE = -I$(MESA)/include -I$(GLUT)
+CFLAGS = $(PROF) $(OPT) $(INCLUDE) -DRENDERED_DISPLAY=0
+
+
+#GLUT_LIBS = -L$(GLUT)/lib/glut -lglut
+#MESA_LIBS = -L$(MESA)/lib -lMesaGLU -lMesaGL -lm
+#XLIBS = -L$(X11)/lib -lXmu -lXt -lXext -lX11 -lXi
+
+LIBS = $(PROF) $(GLUT_LIBS) $(MESA_LIBS) $(XLIBS) 
+
+TARGET = KnightCap
+
+OBJS = knightcap.o trackball.o move.o util.o generate.o eval.o movement.o \
+	ordering.o hash.o board.o log.o prog.o timer.o ics.o display.o \
+	testsuite.o
+
+$(TARGET):  $(OBJS) 
+	-/usr/bin/mv $@ $@.old
+	$(CC) -o $@ $(OBJS) $(LOPT) $(LIBS)
+
+proto:
+	cat *.c | $(AWK) -f mkproto.awk > proto.h
+
+clean:
+	/bin/rm -f *.o *~ $(TARGET)
+

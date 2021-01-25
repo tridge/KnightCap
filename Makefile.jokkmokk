@@ -1,0 +1,36 @@
+#MESA = /usr/local/Mesa
+#GLUT = $(MESA)/glut
+#X11 = /usr/X11R6
+
+CC = gcc
+PROF = 
+OPT = -O2 
+#OPT = -g 
+#LOPT = -g 
+
+#INCLUDE = -I$(MESA)/include -I$(GLUT)
+CFLAGS = $(PROF) -fshort-enums $(OPT) -Wall $(INCLUDE)
+
+
+#GLUT_LIBS = -L$(GLUT)/lib/glut -lglut
+#MESA_LIBS = -L$(MESA)/lib -lMesaGLU -lMesaGL -lm
+#XLIBS = -L$(X11)/lib -lXmu -lXt -lSM -lICE -lXext -lX11 -lXi
+
+LIBS = $(PROF) $(GLUT_LIBS) $(MESA_LIBS) $(XLIBS) 
+
+TARGET = KnightCap
+
+OBJS = knightcap.o trackball.o move.o util.o generate.o eval.o movement.o \
+	ordering.o hash.o board.o log.o prog.o timer.o ics.o display.o \
+	testsuite.o brain.o
+
+$(TARGET):  $(OBJS) 
+	-mv $@ $@.old
+	$(CC) $(LOPT) -o $@ $(OBJS) $(LIBS)
+
+proto:
+	cat *.c | awk -f mkproto.awk > proto.h
+
+clean:
+	/bin/rm -f *.o *~ $(TARGET)
+

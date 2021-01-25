@@ -1,0 +1,139 @@
+This is version 2.2 of KnightCap.
+
+General info
+------------
+
+KnightCap is a chess program written for the Fujitsu AP1000+ parallel
+computer (running AP/Linux). It will also run on most unixes, although
+you may need to tweak the includes.h file and Makefile.
+
+The principal differences between KnightCap and other chess programs
+are:
+
+ - KnightCap has an optional fully rendered 3D interface, giving a feel much
+   more like an "over the board" game.
+
+ - KnightCap was developed to run on a parallel distributed memory
+   machine, although it also runs on normal unix boxes.
+
+KnightCap is now starting to get reasonably competitive with some of
+the better known free chess programs. It beats gnuchess a reasonable
+percentage of the time (although I still think gnuchess is a bit
+better) and has even been known to beat crafty. In fact, its has
+scored about 50% against crafty recently.
+
+If you have comments/suggestions etc then send them to
+Andrew.Tridgell@anu.edu.au. I get tons of email about some other bits
+of software I've written so please be patient of I am very slow in
+replying.
+
+KnightCap is available under the GNU public license. 
+
+All the code was written by Andrew Tridgell except for the
+trackball.[ch] modules which come unmodified from the Mesa graphics
+demos.
+
+KnightCap plays on FICS at ics.onenet.net/5000. It currently has a
+rating of around 2200.
+
+
+Building KnightCap
+------------------
+
+If you want the fancy graphics display then you will need an OpenGL
+graphics library and the SGI Glut toolkit. The free Mesa library is
+fine.
+
+Edit the Makefile, following the comments.
+
+Then type "make". When it doesn't work fix the problems or call on
+a local C programming guru.
+
+The code currently assumes you have a 32 bit machine and that "long
+long" is a 64 bit quantity. I'll probably fix this sometime.
+
+
+Running KnightCap
+-----------------
+
+After you start it up use the right button to access the main
+menu. Its obvious from there.
+
+You can rotate the board by dragging with the left mouse button. Move
+pieces by dragging on the piece, also with the left mouse button.
+
+If you don't compile with the fancy graphics then your get a simple
+color ascii display. If you have a mono terminal then you don't get
+color and it will be tricky to tell who's white!
+
+You should also try the "help" command once you start it up, and the
+-h switch on the command line when you run it. There are lots of
+options you can set.
+
+For "normal" play I recommend at least the -A switch (so that it
+thinks on opponents time) and the -H switch, which is used to specify
+how much memory to use for the hash tables.
+
+KnightCap needs heaps of memory for hash tables. It uses a memory
+intensive varient of alpha-beta so it will be much more affected by
+lack of memory than other programs. Try to give it at least 16MB,
+preferably more, but don't specify so much that it begins to swap!
+
+
+Using with XBoard
+-----------------
+
+Yes, KnightCap can be used with XBoard. Start KnightCap with the -n
+and -X options on the command line. For example 
+
+	  xboard -fcp 'KnightCap -n -X -A'
+
+then play as usual. KnightCap doesn't not yet support editing
+positions (except when connected to FICS). It does understand time
+controls etc and most other stuff that XBoard throws at it.
+
+
+Playing on ICS
+--------------
+
+Yes, KnightCap can be used as an interface to ICS. Its a bit
+rudimentary at the moment, and is not really intended for general
+consumption but it does work.
+
+To start it up use the -c option like this:
+
+	KnightCap -c 'telnet ics.onenet.net 5000'
+
+Make sure you use board style 12 (use "set style 12" once logged in).
+
+The ICS interface was designed to let KnightCap play unattended, not
+as a general ICS interface, so you may find bugs.
+
+
+Mesa and Glut
+-------------
+
+To build KnightCap with the 3D display you need a OpenGL complient
+graphics library and the Glut toolkit from SGI. Both of these are
+avaiable freely on the net. To help make things a bit easier for some
+people I have included pre-compiled versions of these libraries on the
+KnightCap ftp site for Linux-intel and Solaris2-sparc systems. Use
+these pre-compiled packages only if you are lazy and short on time.
+
+You may also need to set your LD_LIBRARY_PATH environment variable to
+point at the Mesa-2.1/lib directory so that the dynamic loader can
+find the libraries when KnightCap starts up.
+
+
+
+Source code
+-----------
+
+The source code for KnightCap is available from
+http://samba.anu.edu.au/KnightCap or
+ftp://samba.anu.edu.au/pub/KnightCap
+
+Feedback and patches are welcome, although I may not respond very
+quickly.
+
+
